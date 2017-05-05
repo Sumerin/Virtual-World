@@ -1,14 +1,18 @@
-import {WrongCoordinatesException} from '../errors';
+import {WrongCoordinatesException, NoWorldAssigned} from '../errors';
 
 export default class Organism{
-    constructor(coordinates){
+    constructor(pos){
         this.strength=0;
         this.initiative=0;
-        this.world=0;
-        this.coordinates = coordinates;
-
-        if(coordinates.x == null || coordinates.y == null){
+        this.world = null;
+        this.pos = pos;
+        if(pos.x == null || pos.y == null){
             throw new WrongCoordinatesException(this.constructor.name);
         }
+        setTimeout(()=>{
+           if (!this.world){
+               throw new NoWorldAssigned(this.constructor.name);
+           }
+        },0)
     }
 }
