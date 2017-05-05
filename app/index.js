@@ -1,7 +1,7 @@
 import "./style.scss";
 import Wolf from './organisms/animals/wolf';
 import World from './world';
-import {drawWorld} from './representation';
+import {drawWorld, initializeWorld} from './representation';
 
 let world = new World({width:10, height:10});
 let pos = {
@@ -11,8 +11,13 @@ let pos = {
 let wolf = new Wolf(pos);
 world.newOrganism(wolf);
 
-wolf.action();
-drawWorld(world);
+initializeWorld(world);
+
+setInterval(()=>{
+    wolf.action();
+    drawWorld(world);
+},300);
+
 
 
 
