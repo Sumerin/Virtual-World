@@ -1,4 +1,4 @@
-import Organism from '../orgasnism';
+import Organism from '../organism';
 import {getRandom} from '../../utilities';
 
 export default class Animal extends Organism{
@@ -7,7 +7,10 @@ export default class Animal extends Organism{
     }
     action(){
         let dir = getRandom(1,9);
-        console.debug("pos, dir, posAtDir", this.pos, dir, this.getPosAtDir(this.pos, dir));
-
+        let newPos = this.getPosAtDir(this.pos, dir);
+        let mapState = this.world.getMapState(newPos);
+        if(!mapState){
+            this.world.setMapState(newPos,this);
+        }
     }
 };

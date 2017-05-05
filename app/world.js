@@ -23,6 +23,7 @@ export default class World{
             throw new OutOfRangeException(pos)
         }
         this.map[pos.y][pos.x] = obj;
+        this.map[obj.pos.y][obj.pos.x] = undefined;
         obj.pos = pos;
     }
 };
