@@ -14,20 +14,14 @@ export default class World{
     }
     getMapState(pos){
         if(pos.x<0 || pos.x>=this.size.width || pos.y<0 || pos.y>=this.size.height){
-            throw new OutOfRangeException(pos)
+            return -1;
         }
         return this.map[pos.y][pos.x];
     }
     setMapState(pos, obj){
-        if (pos.x==obj.pos.x && pos.y==obj.pos.y){
-            this.map[obj.pos.y][obj.pos.x] = obj;
-            return;
-        }
         if(pos.x<0 || pos.x>=this.size.width || pos.y<0 || pos.y>=this.size.height){
             throw new OutOfRangeException(pos)
         }
         this.map[pos.y][pos.x] = obj;
-        this.map[obj.pos.y][obj.pos.x] = undefined;
-        obj.pos = pos;
     }
 };

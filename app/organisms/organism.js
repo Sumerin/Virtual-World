@@ -15,7 +15,6 @@ export default class Organism{
            }
         },0)
     }
-
     //Direction is resembled by a number on numpad, so for example
     //7 means moving to upper-left corner, or 6 means moving right
     getPosAtDir(pos,dir){
@@ -44,5 +43,10 @@ export default class Organism{
     }
     collision(){
         throw new NoMethodImplementedException('collision');
+    }
+    move(newPos){
+        this.world.setMapState(this.pos,undefined);
+        this.world.setMapState(newPos,this);
+        this.pos = newPos;
     }
 }
