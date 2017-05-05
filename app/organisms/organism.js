@@ -19,6 +19,9 @@ export default class Organism{
     //Direction is resembled by a number on numpad, so for example
     //7 means moving to upper-left corner, or 6 means moving right
     getPosAtDir(pos,dir){
+        if(dir==5){
+            return pos;
+        }
         let x = pos.x;
         let y = pos.y;
         if(dir>=1 && dir<=3) {

@@ -7,8 +7,10 @@ export default class Animal extends Organism{
     }
     action(){
         let dir = getRandom(1,9);
+        if(dir==5) return;
         let newPos = this.getPosAtDir(this.pos, dir);
         let mapState = this.world.getMapState(newPos);
+        console.debug("new pos", newPos, mapState);
         if(!mapState){
             this.world.setMapState(newPos,this);
         }

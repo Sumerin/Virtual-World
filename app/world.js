@@ -19,6 +19,10 @@ export default class World{
         return this.map[pos.y][pos.x];
     }
     setMapState(pos, obj){
+        if (pos.x==obj.pos.x && pos.y==obj.pos.y){
+            this.map[obj.pos.y][obj.pos.x] = obj;
+            return;
+        }
         if(pos.x<0 || pos.x>=this.size.width || pos.y<0 || pos.y>=this.size.height){
             throw new OutOfRangeException(pos)
         }
