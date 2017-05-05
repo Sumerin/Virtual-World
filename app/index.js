@@ -4,17 +4,22 @@ import World from './world';
 import {drawWorld, initializeWorld} from './representation';
 
 let world = new World({width:10, height:10});
-let pos = {
+
+let wolf = new Wolf({
     x:3,
     y:3
-};
-let wolf = new Wolf(pos);
+});
 world.newOrganism(wolf);
 
-initializeWorld(world);
+let wolf2 = new Wolf({
+    x:4,
+    y:4
+});
+world.newOrganism(wolf2);
 
+initializeWorld(world);
 setInterval(()=>{
-    wolf.action();
+    world.turn();
     drawWorld(world);
 },300);
 

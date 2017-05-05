@@ -7,10 +7,12 @@ export default class World{
         }
         this.size = size;
         this.map = new Array(size.height).fill().map(() => new Array(size.width).fill());
+        this.organisms = [];
     }
-    newOrganism(Organism){
-        Organism.world = this;
-        this.setMapState(Organism.pos, Organism);
+    newOrganism(organism){
+        organism.world = this;
+        this.setMapState(organism.pos, organism);
+        this.organisms.push(organism);
     }
     getMapState(pos){
         if(pos.x<0 || pos.x>=this.size.width || pos.y<0 || pos.y>=this.size.height){
@@ -23,5 +25,10 @@ export default class World{
             throw new OutOfRangeException(pos)
         }
         this.map[pos.y][pos.x] = obj;
+    }
+    turn(){
+        this.organisms.forEach(el=>{
+            el.action();
+        })
     }
 };
