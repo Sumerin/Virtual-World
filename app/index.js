@@ -1,5 +1,6 @@
 import "./style.scss";
 import Wolf from './organisms/animals/wolf';
+import Sheep from './organisms/animals/sheep'
 import World from './world';
 import {drawWorld, initializeWorld} from './representation';
 
@@ -16,6 +17,18 @@ let wolf2 = new Wolf({
     y:4
 });
 world.newOrganism(wolf2);
+
+let sheep1= new Sheep({
+    x:6,
+    y:6
+});
+world.newOrganism(sheep1);
+
+let sheep2= new Sheep({
+    x:6,
+    y:7
+});
+world.newOrganism(sheep2);
 
 initializeWorld(world);
 setInterval(()=>{

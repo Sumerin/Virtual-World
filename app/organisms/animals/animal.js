@@ -27,7 +27,14 @@ export default class Animal extends Organism{
         this.action();
     }
     fight(encountered){
-
+        let newPos;
+        if(this.strength>=encountered.strength){
+            newPos = encountered.pos;
+            this.world.deleteOrganism(encountered);
+            this.move(newPos);
+        }else{
+            this.world.deleteOrganism(this);
+        }
     }
     breed(){
         let dir;
