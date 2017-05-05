@@ -10,12 +10,12 @@ function OutOfRangeException(pos){
     this.message = 'Given coordinates ['+pos.x+','+pos.y+'] are out of range';
 }
 
-function NoWorldAssigned(name){
+function NoWorldAssignedException(name){
     this.message = 'No world assigned for ' + name;
 }
 
-function NoMethodImplemented(name){
+function NoMethodImplementedException(name){
     this.message = 'No ' + name + ' method implemented';
 }
 
-export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssigned, NoMethodImplemented }
+export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssignedException, NoMethodImplementedException }

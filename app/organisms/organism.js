@@ -1,4 +1,4 @@
-import {WrongCoordinatesException, NoWorldAssigned, NoMethodImplemented} from '../errors';
+import {WrongCoordinatesException, NoWorldAssignedException, NoMethodImplementedException} from '../errors';
 
 export default class Organism{
     constructor(pos){
@@ -11,7 +11,7 @@ export default class Organism{
         }
         setTimeout(()=>{
            if (!this.world){
-               throw new NoWorldAssigned(this.constructor.name);
+               throw new NoWorldAssignedException(this.constructor.name);
            }
         },0)
     }
@@ -40,9 +40,9 @@ export default class Organism{
         }
     }
     action(){
-        throw new NoMethodImplemented('action');
+        throw new NoMethodImplementedException('action');
     }
     collision(){
-        throw new NoMethodImplemented('collision');
+        throw new NoMethodImplementedException('collision');
     }
 }
