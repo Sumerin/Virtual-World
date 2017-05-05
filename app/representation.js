@@ -22,7 +22,8 @@ function checkContent(pos, node, world){
     console.debug({
         pos:pos,
         organism:world.getMapState(pos),
-        node:node
+        node:node,
+        world:world
     })
 }
 
