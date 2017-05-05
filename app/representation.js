@@ -11,10 +11,19 @@ function initializeWorld(world){
             let el = $('<div/>', {
                 class: 'element ' + className
             });
+            el.on('click', () => {checkContent({x:x, y:y}, el, world)});
             row.append(el);
         }
         map.append(row);
     }
+}
+
+function checkContent(pos, node, world){
+    console.debug({
+        pos:pos,
+        organism:world.getMapState(pos),
+        node:node
+    })
 }
 
 function drawWorld(world){
@@ -34,5 +43,6 @@ function drawWorld(world){
         }
     }
 }
+
 
 export { drawWorld, initializeWorld }

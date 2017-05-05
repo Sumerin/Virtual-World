@@ -38,7 +38,7 @@ export default class World{
     }
     turn(){
         this.organisms.forEach(el=>{
-            if(el) el.action();
+            el.action();
         })
     }
 };
