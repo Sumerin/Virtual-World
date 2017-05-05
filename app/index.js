@@ -7,5 +7,6 @@ let pos = {
     x:1,
     y:15
 };
-world.newOrganism(new Wolf(pos));
-console.debug(world.getMapState(pos));
+let wolf = new Wolf(pos);
+world.newOrganism(wolf);
+wolf.action();

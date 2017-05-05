@@ -14,4 +14,8 @@ function NoWorldAssigned(name){
     this.message = 'No world assigned for ' + name;
 }
 
-export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssigned }
+function NoMethodImplemented(name){
+    this.message = 'No ' + name + ' method implemented';
+}
+
+export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssigned, NoMethodImplemented }
