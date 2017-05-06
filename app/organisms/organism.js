@@ -22,7 +22,7 @@ export default class Organism{
         throw new NoMethodImplementedException('collision');
     }
     move(newPos){
-        this.world.setMapState(this.pos,undefined);
+        this.world.setMapState(this.pos,0);
         this.world.setMapState(newPos,this);
         this.pos = newPos;
     }
