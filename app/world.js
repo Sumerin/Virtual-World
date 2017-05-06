@@ -1,4 +1,4 @@
-import { WrongSizeGivenException, OutOfRangeException, WrongOrganismIndexWhileDeletingException, WrongOrganismIndexWhileCreatingException } from './errors';
+import { WrongSizeGivenException, OutOfRangeException, WrongOrganismIdWhileDeletingException } from './errors';
 import { getPosAtDir } from './utilities'
 
 export default class World{
@@ -11,23 +11,18 @@ export default class World{
         this.organisms = [];
         this.counter = 0;
     }
-    sortOrganisms(){
-        
-    }
     newOrganism(organism){
         organism.world = this;
         this.setMapState(organism.pos, organism);
-        organism.index = this.organisms.length;
-        let index = this.organisms.push(organism);
-        organism.index = index-1;
-
-        if(organism.index != this.organisms[organism.index].index){
-            throw new WrongOrganismIndexWhileCreatingException(organism);
-        }
+        organism.id = this.counter++;
+        this.organisms.push(organism);
     }
     deleteOrganism(organism){
-        if(organism.index != this.organisms[organism.index].index){
-            throw new WrongOrganismIndexWhileDeletingException(organism);
+        let index = this.organisms.findIndex(el=>{
+            return el.id = organism.id;
+        });
+        if(organism.id != this.organisms[index].id){
+            throw new WrongOrganismIdWhileDeletingException(organism);
         }
         this.setMapState(organism.pos, undefined);
         this.organisms.splice(organism.index,1);

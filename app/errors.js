@@ -18,16 +18,10 @@ function NoMethodImplementedException(name){
     this.message = 'No ' + name + ' method implemented';
 }
 
-function WrongOrganismIndexWhileDeletingException(organism){
-    this.message = 'Wrong organism index';
+function WrongOrganismIdWhileDeletingException(organism){
+    this.message = 'Wrong organism id';
     this.organism = organism;
     this.expected = organism.world.organisms[organism.index];
 }
 
-function WrongOrganismIndexWhileCreatingException(organism){
-    this.message = 'Wrong organism index';
-    this.organism = organism;
-    this.expected = organism.world.organisms[organism.index];
-}
-
-export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssignedException, NoMethodImplementedException, WrongOrganismIndexWhileDeletingException, WrongOrganismIndexWhileCreatingException}
+export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssignedException, NoMethodImplementedException, WrongOrganismIdWhileDeletingException}
