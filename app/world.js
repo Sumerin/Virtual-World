@@ -16,6 +16,7 @@ export default class World{
         this.setMapState(organism.pos, organism);
         organism.id = this.counter++;
         this.organisms.push(organism);
+        console.debug("created", organism);
     }
     deleteOrganism(organism){
         let index = this.organisms.findIndex(el=>{
@@ -24,8 +25,9 @@ export default class World{
         if(!this.organisms[index] || organism.id != this.organisms[index].id){
             throw new WrongOrganismIdWhileDeletingException(organism);
         }
+        console.debug("died", organism);
         this.setMapState(organism.pos, 0);
-        this.organisms.splice(organism.index,1);
+        this.organisms.splice(organism.id,1);
     }
     getMapState(pos){
         if(pos.x<0 || pos.x>=this.size.width || pos.y<0 || pos.y>=this.size.height){
@@ -41,7 +43,7 @@ export default class World{
     }
     turn(){
         this.organisms.forEach(el=>{
-            if(!el.deleted)el.action();
+            el.action();
         })
     }
     getFreeSpace(pos, empty){

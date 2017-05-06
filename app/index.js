@@ -31,11 +31,14 @@ let sheep2= new Sheep({
 world.newOrganism(sheep2);
 
 initializeWorld(world);
-setInterval(()=>{
-    world.turn();
-    drawWorld(world);
-},30);
+runGame();
 
+function runGame()
+{
+    drawWorld(world);
+    world.turn();
+    setTimeout(runGame, 100);
+}
 
 
 
