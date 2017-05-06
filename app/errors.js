@@ -24,4 +24,9 @@ function WrongOrganismIdWhileDeletingException(organism){
     this.expected = organism.world.organisms[organism.index];
 }
 
-export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssignedException, NoMethodImplementedException, WrongOrganismIdWhileDeletingException}
+function OrganismAlreadyDeletedException(organism){
+    this.message = 'Organism is already deleted';
+    this.organism = organism;
+}
+
+export { WrongCoordinatesException,  WrongSizeGivenException, OutOfRangeException, NoWorldAssignedException, NoMethodImplementedException, WrongOrganismIdWhileDeletingException, OrganismAlreadyDeletedException}
