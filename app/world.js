@@ -7,7 +7,7 @@ export default class World{
             throw new WrongSizeGivenException();
         }
         this.size = size;
-        this.map = new Array(size.height).fill().map(() => new Array(size.width).fill());
+        this.map = new Array(size.height).fill(0).map(() => new Array(size.width).fill(0));
         this.organisms = [];
         this.counter = 0;
     }
@@ -21,10 +21,10 @@ export default class World{
         let index = this.organisms.findIndex(el=>{
             return el.id = organism.id;
         });
-        if(organism.id != this.organisms[index].id){
+        if(!this.organisms[index] || organism.id != this.organisms[index].id){
             throw new WrongOrganismIdWhileDeletingException(organism);
         }
-        this.setMapState(organism.pos, undefined);
+        this.setMapState(organism.pos, 0);
         this.organisms.splice(organism.index,1);
     }
     getMapState(pos){
@@ -41,7 +41,7 @@ export default class World{
     }
     turn(){
         this.organisms.forEach(el=>{
-            el.action();
+            if(!el.deleted)el.action();
         })
     }
     getFreeSpace(pos, empty){
