@@ -1,4 +1,5 @@
-import { WrongSizeGivenException, OutOfRangeException } from './errors';
+import { WrongSizeGivenException, OutOfRangeException, WrongOrganismIndexWhileDeletingException, WrongOrganismIndexWhileCreatingException } from './errors';
+import { getPosAtDir } from './utilities'
 
 export default class World{
     constructor(size){
@@ -10,19 +11,26 @@ export default class World{
         this.organisms = [];
         this.counter = 0;
     }
+    sortOrganisms(){
+        
+    }
     newOrganism(organism){
-        organism.id = this.counter;
-        ++this.counter;
         organism.world = this;
         this.setMapState(organism.pos, organism);
-        this.organisms.push(organism);
+        organism.index = this.organisms.length;
+        let index = this.organisms.push(organism);
+        organism.index = index-1;
+
+        if(organism.index != this.organisms[organism.index].index){
+            throw new WrongOrganismIndexWhileCreatingException(organism);
+        }
     }
     deleteOrganism(organism){
+        if(organism.index != this.organisms[organism.index].index){
+            throw new WrongOrganismIndexWhileDeletingException(organism);
+        }
         this.setMapState(organism.pos, undefined);
-        let i = this.organisms.findIndex(el=>{
-            return el.id==organism.id;
-        });
-        this.organisms.splice(i,1);
+        this.organisms.splice(organism.index,1);
     }
     getMapState(pos){
         if(pos.x<0 || pos.x>=this.size.width || pos.y<0 || pos.y>=this.size.height){
@@ -40,5 +48,15 @@ export default class World{
         this.organisms.forEach(el=>{
             el.action();
         })
+    }
+    getFreeSpace(pos, empty){
+        let mapState;
+        let newPos;
+        for(let dir=0; dir<=9; ++dir){
+            if(dir==5) continue;
+            newPos = getPosAtDir(pos,dir);
+            mapState = this.getMapState(newPos);
+            if((!mapState || mapState.pos && !empty) || !mapState) return newPos;
+        }
     }
 };

@@ -34,7 +34,7 @@ initializeWorld(world);
 setInterval(()=>{
     world.turn();
     drawWorld(world);
-},300);
+},30);
 
 
 
