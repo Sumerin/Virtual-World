@@ -8,9 +8,9 @@
   background-color: white;
   border:1px solid black;
   &.Wolf{
-    background-color:#121212;
+    background: url(/resources/icons/wolf.svg);
   }
   &.Sheep{
-    background-color:lightgray;
+    background: url(/resources/icons/sheep.svg);
   }
 }

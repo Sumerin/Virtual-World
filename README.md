@@ -17,3 +17,5 @@ npm install
 npm run server
 ```
 Application is then available on http://localhost:8080
+
+Icons made by Freepik from www.flaticon.com
