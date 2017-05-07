@@ -42,8 +42,6 @@ export default class Animal extends Organism{
         let dir;
         let newPos;
         let mapState;
-        let i = 0;
-
         dir = getRandom(1, 9);
         newPos = getPosAtDir(this.pos, dir);
         mapState = this.world.getMapState(newPos);

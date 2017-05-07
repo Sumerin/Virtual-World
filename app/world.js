@@ -8,27 +8,19 @@ export default class World{
         }
         this.size = size;
         this.map = new Array(size.height).fill(0).map(() => new Array(size.width).fill(0));
-        this.organisms = [];
+        this.organisms = new Map();
         this.counter = 0;
     }
     newOrganism(organism){
         organism.world = this;
-        if(this.getMapState(organism.pos)) console.debug("error");
+        organism.key = this.counter++;
+        this.organisms.set(organism.key, organism);
         this.setMapState(organism.pos, organism);
-        organism.id = this.counter++;
-        this.organisms.push(organism);
-        console.debug("created", organism);
     }
     deleteOrganism(organism){
         if(organism.deleted) throw new OrganismAlreadyDeletedException(organism);
-        let index = this.organisms.findIndex(el=>{
-            return el.id = organism.id;
-        });
-        if(!this.organisms[index] || organism.id != this.organisms[index].id){
-            throw new WrongOrganismIdWhileDeletingException(organism);
-        }
         this.setMapState(organism.pos, 0);
-        this.organisms.splice(organism.id,1);
+        this.organisms.delete(organism.key);
         organism.deleted = true;
     }
     getMapState(pos){
