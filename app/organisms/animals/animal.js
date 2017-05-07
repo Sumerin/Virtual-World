@@ -27,7 +27,6 @@ export default class Animal extends Organism{
         }else{
             this.breed();
         }
-        this.action();
     }
     fight(encountered){
         let newPos;
