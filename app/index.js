@@ -1,6 +1,7 @@
 import "./style.scss";
 import Wolf from './organisms/animals/wolf';
-import Sheep from './organisms/animals/sheep'
+import Sheep from './organisms/animals/sheep';
+import Fox from './organisms/animals/fox'
 import World from './world';
 import {drawWorld, initializeWorld} from './representation';
 
@@ -18,6 +19,8 @@ let wolf2 = new Wolf({
 });
 world.newOrganism(wolf2);
 
+
+
 let sheep1= new Sheep({
     x:6,
     y:6
@@ -29,6 +32,20 @@ let sheep2= new Sheep({
     y:7
 });
 world.newOrganism(sheep2);
+
+
+
+let fox1= new Fox({
+    x:8,
+    y:8
+});
+world.newOrganism(fox1);
+
+let fox2= new Fox({
+    x:6,
+    y:7
+});
+world.newOrganism(fox2);
 
 initializeWorld(world);
 runGame();
