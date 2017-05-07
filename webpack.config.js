@@ -26,6 +26,22 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/,
+                use:[
+                    {
+                        loader: 'url-loader',
+                        options:{
+                            limit:40000
+                        }
+                    },
+                    {
+                        loader:'image-webpack-loader',
+                        options:{
+                        }
+                    }
+                ]
             }
         ],
     },
