@@ -7,11 +7,6 @@ export default class Antelope extends Animal{
         this.strength = 4;
         this.initiative = 4;
     }
-    action() {
-        if(tryWithChance(25)){
-            super.action();
-        }
-    }
     defend(){
         if(tryWithChance(50)){
             let freeSpace = this.world.getFreeSpace(this.pos, true);
