@@ -37,9 +37,17 @@ var Animal = function (_Organism) {
     _createClass(Animal, [{
         key: 'action',
         value: function action(condition) {
+            var range = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
             var dir = (0, _utilities.getRandom)(1, 9);
-            if (dir == 5) return;
             var newPos = (0, _utilities.getPosAtDir)(this.pos, dir);
+            for (var i = 0; i < range - 1; i++) {
+                if ((0, _utilities.tryWithChance)(60)) {
+                    dir = (0, _utilities.getRandom)(1, 9);
+                    newPos = (0, _utilities.getPosAtDir)(newPos, dir);
+                }
+            }
+            if ((0, _utilities.areEqual)(this.pos, newPos)) return false;
             var mapState = this.world.getMapState(newPos);
             if (!mapState) {
                 this.move(newPos);
@@ -154,9 +162,19 @@ function tryWithChance(prob) {
     return outcome <= prob / 100;
 }
 
+function areEqual(first, second) {
+    for (var property in first) {
+        if (!second.hasOwnProperty(property) || first[property] !== second[property]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 exports.getRandom = getRandom;
 exports.getPosAtDir = getPosAtDir;
 exports.tryWithChance = tryWithChance;
+exports.areEqual = areEqual;
 
 /***/ }),
 /* 2 */,
@@ -251,6 +269,11 @@ var Antelope = function (_Animal) {
     }
 
     _createClass(Antelope, [{
+        key: 'action',
+        value: function action() {
+            _get(Antelope.prototype.__proto__ || Object.getPrototypeOf(Antelope.prototype), 'action', this).call(this, undefined, 2);
+        }
+    }, {
         key: 'defend',
         value: function defend() {
             if ((0, _utilities.tryWithChance)(50)) {
@@ -1363,4 +1386,4 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v
 
 /***/ })
 ],[12]);
-//# sourceMappingURL=bundle.140c1045ae86de6a80f7.js.map
+//# sourceMappingURL=bundle.fc608f2b994e01ba3573.js.map
