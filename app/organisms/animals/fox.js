@@ -8,26 +8,12 @@ export default class Fox extends Animal{
         this.initiative = 7;
     }
     action() {
-        let dir = getRandom(1, 9);
-        if (dir == 5) return;
-        let newPos = getPosAtDir(this.pos, dir);
-        let mapState = this.world.getMapState(newPos);
-        if (!mapState) {
-            this.move(newPos);
-        } else if (mapState.pos && this.strength>=mapState.strength) {
-            this.collision(mapState);
-        } else if (mapState == -1) {
-            let freeSpace = this.world.getFreeSpace(this.pos);
-            if(freeSpace){
-                this.move(freeSpace);
-            }
-        }else{
+        if(!super.action()){
             let freeSpace = this.smellForFreeSpace();
             if(freeSpace){
-                console.debug("Fox smelled free space");
                 let mapState = this.world.getMapState(freeSpace);
                 if(!mapState){
-                    this.move(newPos);
+                    this.move(freeSpace);
                 }else{
                     this.collision(mapState);
                 }

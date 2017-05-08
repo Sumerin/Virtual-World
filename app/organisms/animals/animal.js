@@ -5,21 +5,24 @@ export default class Animal extends Organism{
     constructor(pos){
         super(pos);
     }
-    action() {
+    action(condition) {
         let dir = getRandom(1, 9);
         if (dir == 5) return;
         let newPos = getPosAtDir(this.pos, dir);
         let mapState = this.world.getMapState(newPos);
         if (!mapState) {
             this.move(newPos);
-        } else if (mapState.pos) {
+        } else if (mapState.pos && (condition || condition===undefined)) {
             this.collision(mapState);
         } else if (mapState == -1) {
             let freeSpace = this.world.getFreeSpace(this.pos);
             if(freeSpace){
                 this.move(freeSpace);
+            }else{
+                return false;
             }
         }
+        return true;
     }
     collision(encountered){
         if(this.constructor.name != encountered.constructor.name){
