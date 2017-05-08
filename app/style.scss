@@ -3,8 +3,8 @@
 }
 .element{
   display:inline-block;
-  width:50px;
-  height:50px;
+  width:35px;
+  height:35px;
   background-color: white;
   border:1px solid black;
   &.Wolf{
@@ -18,5 +18,8 @@
   }
   &.Turtle{
     background: url(../resources/icons/turtle.svg);
+  }
+  &.Antelope{
+    background: url(../resources/icons/antelope.svg);
   }
 }

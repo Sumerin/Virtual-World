@@ -31,8 +31,8 @@ export default class Animal extends Organism{
             this.breed();
         }
     }
-    fight(encountered){
-        if(!encountered.defend(this)){
+    fight(encountered, flee){
+        if(!encountered.defend(this) && !flee){
             let newPos;
             if (this.strength >= encountered.strength) {
                 newPos = encountered.pos;
