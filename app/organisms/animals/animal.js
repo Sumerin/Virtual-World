@@ -32,13 +32,15 @@ export default class Animal extends Organism{
         }
     }
     fight(encountered){
-        let newPos;
-        if(this.strength>=encountered.strength){
-            newPos = encountered.pos;
-            this.world.deleteOrganism(encountered);
-            this.move(newPos);
-        }else{
-            this.world.deleteOrganism(this);
+        if(!encountered.defend(this)){
+            let newPos;
+            if (this.strength >= encountered.strength) {
+                newPos = encountered.pos;
+                this.world.deleteOrganism(encountered);
+                this.move(newPos);
+            } else {
+                this.world.deleteOrganism(this);
+            }
         }
     }
     breed(){
@@ -58,5 +60,8 @@ export default class Animal extends Organism{
         }
         let child = new this.constructor(newPos);
         this.world.newOrganism(child);
+    }
+    defend(){
+        return false;
     }
 };

@@ -26,4 +26,9 @@ function getPosAtDir(pos,dir){
     }
 }
 
-export { getRandom, getPosAtDir }
+function tryWithChance(prob) {
+    let outcome = Math.random();
+    return outcome <= prob/100;
+}
+
+export { getRandom, getPosAtDir, tryWithChance }
