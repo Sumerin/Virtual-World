@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _organism = __webpack_require__(13);
+var _organism = __webpack_require__(12);
 
 var _organism2 = _interopRequireDefault(_organism);
 
@@ -532,90 +532,18 @@ exports.default = Wolf;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.initializeWorld = exports.drawWorld = undefined;
-
-var _jquery = __webpack_require__(2);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function initializeWorld(world) {
-    var map = (0, _jquery2.default)('#map');
-
-    var _loop = function _loop(y) {
-        var row = (0, _jquery2.default)('<div/>', {
-            class: 'row'
-        });
-
-        var _loop2 = function _loop2(x) {
-            var className = 'empty';
-            var el = (0, _jquery2.default)('<div/>', {
-                class: 'element ' + className
-            });
-            el.on('click', function () {
-                checkContent({ x: x, y: y }, el, world);
-            });
-            row.append(el);
-        };
-
-        for (var x = 0; x < world.size.width; x++) {
-            _loop2(x);
-        }
-        map.append(row);
-    };
-
-    for (var y = 0; y < world.size.height; y++) {
-        _loop(y);
-    }
-}
-
-function checkContent(pos, node, world) {
-    console.debug({
-        pos: pos,
-        organism: world.getMapState(pos),
-        node: node,
-        world: world
-    });
-}
-
-function drawWorld(world) {
-    var map = (0, _jquery2.default)('#map');
-    var rows = map.find('.row');
-    for (var y = 0; y < world.size.height; y++) {
-        var elements = rows[y].childNodes;
-        for (var x = 0; x < world.size.width; x++) {
-            var obj = world.getMapState({ x: x, y: y });
-            var className = void 0;
-            if (obj) {
-                className = obj.constructor.name;
-            } else {
-                className = 'empty';
-            }
-            elements[x].className = 'element ' + className;
-        }
-    }
-}
-
-exports.drawWorld = drawWorld;
-exports.initializeWorld = initializeWorld;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _errors = __webpack_require__(3);
 
 var _utilities = __webpack_require__(1);
+
+var _view = __webpack_require__(13);
+
+var _view2 = _interopRequireDefault(_view);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -632,9 +560,21 @@ var World = function () {
         });
         this.organisms = new Map();
         this.counter = 0;
+
+        this.view = new _view2.default(this);
+
+        this.view.initialize();
+        this.view.draw();
+
+        this.stop = false;
     }
 
     _createClass(World, [{
+        key: 'toggleGame',
+        value: function toggleGame() {
+            this.stop = !this.stop;
+        }
+    }, {
         key: 'newOrganism',
         value: function newOrganism(organism) {
             organism.world = this;
@@ -666,6 +606,7 @@ var World = function () {
                 throw new _errors.OutOfRangeException(pos);
             }
             this.map[pos.y][pos.x] = obj;
+            this.view.change(pos, obj);
         }
     }, {
         key: 'turn',
@@ -674,6 +615,7 @@ var World = function () {
                 if (el.deleted) throw new _errors.OrganismAlreadyDeletedException(el);
                 el.action();
             });
+            this.view.applyChanges();
         }
     }, {
         key: 'getFreeSpace',
@@ -687,6 +629,17 @@ var World = function () {
                 if (!mapState || mapState.pos && !empty || !mapState) return newPos;
             }
         }
+    }, {
+        key: 'runGame',
+        value: function runGame() {
+            var me = this;
+            if (!this.stop) {
+                this.turn();
+            }
+            setTimeout(function () {
+                me.runGame();
+            }, 150);
+        }
     }]);
 
     return World;
@@ -696,7 +649,7 @@ exports.default = World;
 ;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -727,13 +680,13 @@ if(false) {
 }
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(11);
+__webpack_require__(10);
 
 var _wolf = __webpack_require__(8);
 
@@ -755,11 +708,9 @@ var _antelope = __webpack_require__(4);
 
 var _antelope2 = _interopRequireDefault(_antelope);
 
-var _world = __webpack_require__(10);
+var _world = __webpack_require__(9);
 
 var _world2 = _interopRequireDefault(_world);
-
-var _representation = __webpack_require__(9);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -780,17 +731,10 @@ world.newOrganism(new _turtle2.default({ x: 1, y: 3 }));
 world.newOrganism(new _antelope2.default({ x: 1, y: 15 }));
 world.newOrganism(new _antelope2.default({ x: 1, y: 16 }));
 
-(0, _representation.initializeWorld)(world);
-runGame();
-
-function runGame() {
-    (0, _representation.drawWorld)(world);
-    world.turn();
-    setTimeout(runGame, 100);
-}
+world.runGame();
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -849,6 +793,127 @@ var Organism = function () {
 }();
 
 exports.default = Organism;
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(2);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var View = function () {
+    function View(world) {
+        _classCallCheck(this, View);
+
+        this.world = world;
+    }
+
+    _createClass(View, [{
+        key: 'initialize',
+        value: function initialize() {
+            var _this = this;
+
+            this.map = (0, _jquery2.default)('#map');
+            this.rows = [];
+
+            var _loop = function _loop(y) {
+                var row = (0, _jquery2.default)('<div/>', {
+                    class: 'row'
+                });
+
+                var _loop2 = function _loop2(x) {
+                    var className = 'empty';
+                    var el = (0, _jquery2.default)('<div/>', {
+                        class: 'element ' + className
+                    });
+                    el.on('click', function () {
+                        _this.checkContent({ x: x, y: y }, el);
+                    });
+                    row.append(el);
+                };
+
+                for (var x = 0; x < _this.world.size.width; x++) {
+                    _loop2(x);
+                }
+                _this.map.append(row);
+                _this.rows.push(row[0]);
+            };
+
+            for (var y = 0; y < this.world.size.height; y++) {
+                _loop(y);
+            }
+            this.changes = new Map();
+        }
+    }, {
+        key: 'checkContent',
+        value: function checkContent(pos, node) {
+            console.debug({
+                pos: pos,
+                organism: this.world.getMapState(pos),
+                node: node,
+                world: this.world
+            });
+        }
+    }, {
+        key: 'draw',
+        value: function draw() {
+            for (var y = 0; y < this.world.size.height; y++) {
+                var elements = this.rows[y].childNodes;
+                for (var x = 0; x < this.world.size.width; x++) {
+                    var obj = this.world.getMapState({ x: x, y: y });
+                    var className = void 0;
+                    if (obj) {
+                        className = obj.constructor.name;
+                    } else {
+                        className = 'empty';
+                    }
+                    elements[x].className = 'element ' + className;
+                }
+            }
+        }
+    }, {
+        key: 'change',
+        value: function change(pos, obj) {
+            var el = this.rows[pos.y].childNodes[pos.x];
+            var className = void 0;
+            if (obj) {
+                className = obj.constructor.name;
+            } else {
+                className = 'empty';
+            }
+            this.changes.set(pos, 'element ' + className);
+        }
+    }, {
+        key: 'applyChanges',
+        value: function applyChanges() {
+            var _this2 = this;
+
+            this.changes.forEach(function (newClass, pos) {
+                if (_this2.rows[pos.y].childNodes[pos.x].className != newClass) {
+                    _this2.rows[pos.y].childNodes[pos.x].className = newClass;
+                }
+            });
+        }
+    }]);
+
+    return View;
+}();
+
+exports.default = View;
 
 /***/ }),
 /* 14 */
@@ -1385,5 +1450,5 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5v
 module.exports = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIuMDAxIDUxMi4wMDEiPjxwYXRoIGQ9Ik0zMDQuODA0IDQ3MS4zNjZoLTk3LjYyMXMtLjc1LjA1OSAwIDEwLjE1OWMxLjE2MiAxNS42NjEgMjEuODU0IDMwLjQ3NiA0OC44MSAzMC40NzZoLjExM2MyNi44MzMgMCA0Ny40MjktMTQuODE1IDQ4LjU4Ni0zMC40NzYuNzQ2LTEwLjEwMS4xMTItMTAuMTU5LjExMi0xMC4xNTl6IiBmaWxsPSIjZmZkZWI3Ii8+PHBhdGggZD0iTTM1NC4xNTYgNTguNTA3Yy0xOC41NTMgMjAuMzU4LTE2LjMzMiA1Mi4xMTQgNC42OTUgNjkuOTA2bDQ5LjY2IDQyLjAxOWM2LjAzMS04OS40MjQtMi42MDQtMTQ0LjgyMS0xMC4wNzEtMTUzLjc5Ny03LjEwNSAzLjEzMi0yNC41OTMgMjAuMjY2LTQ0LjI4NCA0MS44NzJ6TTExMy41NiAxNi42MzVjLTcuNDY5IDguOTc2LTE2LjEwNCA2NC4zNzMtMTAuMDcxIDE1My43OTdsNDkuNjYtNDIuMDE5YzIxLjAyNy0xNy43OTEgMjMuMjQ3LTQ5LjU0NyA0LjY5NS02OS45MDYtMTkuNjktMjEuNjA2LTM3LjE3OS0zOC43NC00NC4yODQtNDEuODcyeiIgZmlsbD0iI2MzYjliMSIvPjxwYXRoIGQ9Ik0zNDUuMzk4IDQ1NS4xMTJjMTcuNzc4LTQwLjEyNyA3My4xNDMtMzIuNTA4IDczLjE0My0zMi41MDh2LTI0LjM4MWw0OC43NjIgMzIuNTA4di01Ni44ODlsMjQuMzgxIDguMTI3YzAtMzUuNzYyLTE2LjExNy0xNDIuNTE5LTc2Ljc3LTIyMC43MjUtODAuMTItMTAzLjMwNy0yMzcuNzA3LTEwMy4zMDctMzE3LjgyNyAwLTYwLjY1MyA3OC4yMDUtNzYuNzcgMTg0Ljk2Mi03Ni43NyAyMjAuNzI1bDI0LjM4MS04LjEyN3Y1Ni44ODlsNDguNzYyLTMyLjUwOHYyNC4zODFzNTUuMzY1LTcuNjE5IDczLjE0MyAzMi41MDhsMzIuNTA4LTguMTI3aDk3LjUyNGw0OC43NjMgOC4xMjd6IiBmaWxsPSIjZmZlYmQyIi8+PHBhdGggZD0iTTE2Ny40NSAzNDAuMjcxbDcyLjI5NyA5OC41ODdWMjI3LjU1Nkg1Ny43NzRDMjkuMDY3IDI5MS4wMyAyMC4zMTggMzU1LjY4IDIwLjMxOCAzODEuOTY5bDI0LjM4MS04LjEyN3Y1Ni44ODljMjMuMzktNTEuNDU2IDU0Ljg1NS04MS4zNzIgNzcuMzUyLTk3LjQ5NyAxNC41ODQtMTAuNDU0IDM0Ljc4Ny03LjQzMyA0NS4zOTkgNy4wMzd6bTE3Ny4xMDEgMGwtNzIuMjk3IDk4LjU4N1YyMjcuNTU2aDE4MS45NzNjMjguNzA2IDYzLjQ3NCAzNy40NTYgMTI4LjEyNCAzNy40NTYgMTU0LjQxM2wtMjQuMzgxLTguMTI3djU2Ljg4OWMtMjMuMzg5LTUxLjQ1Ni01NC44NTUtODEuMzcyLTc3LjM1Mi05Ny40OTctMTQuNTg1LTEwLjQ1NC0zNC43ODgtNy40MzMtNDUuMzk5IDcuMDM3eiIgZmlsbD0iI2MzYjliMSIvPjxwYXRoIGQ9Ik0yOTYuNjM2IDMwOC44MjZoLTgxLjI3Yy04LjYzNSA0Ni42NDItMzIuNTA4IDgxLjEwNC0zMi41MDggMTMzLjcwNiAwIDMyLjE4NiAyNC4zODEgNDQuNTg2IDQwLjYzNSA0NC41ODZzMzIuNTA4LTcuNjI1IDMyLjUwOC03LjYyNSAxNi4yNTQgNy42MjUgMzIuNTA4IDcuNjI1IDQwLjYzNS0xMi40IDQwLjYzNS00NC41ODZjMC01Mi42MDItMjMuODc0LTg3LjA2NC0zMi41MDgtMTMzLjcwNnoiIGZpbGw9IiNmZmViZDIiLz48cGF0aCBkPSJNNDI0LjUwOCAxNzQuMzk2YzUuMDE3LTcyLjk1MyAxLjcxNy0xNTEuNTA5LTE0LjY4NS0xNjkuMzRDNDA1Ljk4Ljg3NyA0MDEuOTAyIDAgMzk5LjE2MyAwYy0xNi4xOTkgMC02MC4yMjMgNDkuNjExLTg5LjA2OCA4NC4zNWwtLjQ5OC0uMTY5Yy0zNC42NjMtMTEuNzItNzIuNTMxLTExLjcyLTEwNy4xOTQgMGwtLjQ5OC4xNjlDMTczLjA2IDQ5LjYxMSAxMjkuMDM2IDAgMTEyLjgzNyAwYy0yLjczOCAwLTYuODE4Ljg3Ny0xMC42NTkgNS4wNTYtMTYuNDAyIDE3LjgzMi0xOS43MDMgOTYuMzg2LTE0LjY4NSAxNjkuMzQtNTIuNzcgNzYuNTg5LTY3LjE3NiAxNzMuNzc4LTY3LjE3NiAyMDcuNTczIDQzLjQ3NS05OS4zNzIgMTA1LjkzNS0xMzIuMjk1IDEzMi45NzMtMTQyLjI5NyA3LjYxOS0yLjgxOCAxNS42NTgtNC4xMzkgMjMuNzk0LTMuOTc2IDEyLjgzOS4yNTcgMjMuMzQzIDEwLjQyNiAyNC45NDggMjMuMTY2bDIxLjQ2IDE3MC4yNDJoNjUuMDE2bDIxLjQ1OS0xNzAuMjQyYzEuNjA2LTEyLjc0IDEyLjExLTIyLjkxIDI0Ljk0OS0yMy4xNjYgOC4xMzYtLjE2MyAxNi4xNzUgMS4xNTcgMjMuNzk0IDMuOTc2IDI3LjAzNiAxMC4wMDEgODkuNDk4IDQyLjkyNCAxMzIuOTczIDE0Mi4yOTcuMDAxLTMzLjc5NS0xNC40MDctMTMwLjk4NC02Ny4xNzUtMjA3LjU3M3pNMTEzLjU2IDE2LjYzNWM3LjEwNSAzLjEzMiAyNC41OTMgMjAuMjY2IDQ0LjI4NCA0MS44NzIgNy41NDcgOC4yODEgMTEuNjM5IDE4LjQ0NyAxMi40MzQgMjguNzk0LjQ4NiA2LjMxNC0yLjcyMyAxMi4yNDktOC4xNiAxNS40OTYtMjMuMyAxMy45MTEtNDMgMzEuNzI1LTU5LjU2NSA1MS43NDUtNC4wNDktODAuMDc0IDMuOTkyLTEyOS40NzUgMTEuMDA3LTEzNy45MDd6bTI0MC41OTcgNDEuODcyYzE5LjY5LTIxLjYwOCAzNy4xNzktMzguNzQgNDQuMjg0LTQxLjg3MiA3LjAxNSA4LjQzMiAxNS4wNTUgNTcuODMzIDExLjAwNiAxMzcuOTA3LTE2LjU2NS0yMC4wMjEtMzYuMjY2LTM3LjgzMy01OS41NjUtNTEuNzQ1LTUuNDM3LTMuMjQ3LTguNjQ1LTkuMTgyLTguMTYtMTUuNDk2Ljc5Ni0xMC4zNDUgNC44ODctMjAuNTEyIDEyLjQzNS0yOC43OTR6IiBmaWxsPSIjODc4NzkxIi8+PGcgZmlsbD0iIzQ2NDY1NSI+PGNpcmNsZSBjeD0iMTc0LjczMSIgY3k9IjI2OC4xOTEiIHI9IjE2LjI1NCIvPjxjaXJjbGUgY3g9IjMzNy4yNzEiIGN5PSIyNjguMTkxIiByPSIxNi4yNTQiLz48cGF0aCBkPSJNMjg4LjUwOSA0MjkuMTA2YzAgMTUuNzEtMTQuNTU0IDM0LjEzMy0zMi41MDggMzQuMTMzcy0zMi41MDgtMTguNDI0LTMyLjUwOC0zNC4xMzNjMC0xNS43MSAxNC41NTQtMjIuNzU2IDMyLjUwOC0yMi43NTYgMTcuOTUzIDAgMzIuNTA4IDcuMDQ2IDMyLjUwOCAyMi43NTZ6Ii8+PC9nPjwvc3ZnPg=="
 
 /***/ })
-],[12]);
-//# sourceMappingURL=bundle.fc608f2b994e01ba3573.js.map
+],[11]);
+//# sourceMappingURL=bundle.69ebfb8989618df2bd36.js.map
