@@ -1,4 +1,5 @@
 import { WrongSizeGivenException, OutOfRangeException, WrongOrganismIdWhileDeletingException, OrganismAlreadyDeletedException } from './errors';
+import View from './view';
 import { getPosAtDir } from './utilities'
 
 export default class World{
@@ -10,6 +11,17 @@ export default class World{
         this.map = new Array(size.height).fill(0).map(() => new Array(size.width).fill(0));
         this.organisms = new Map();
         this.counter = 0;
+
+        this.view = new View(this);
+
+        this.view.initialize();
+        this.view.draw();
+
+        this.stop = false;
+        this.runGame();
+    }
+    toggleGame(){
+        this.stop = !this.stop;
     }
     newOrganism(organism){
         organism.world = this;
@@ -35,12 +47,14 @@ export default class World{
             throw new OutOfRangeException(pos)
         }
         this.map[pos.y][pos.x] = obj;
+        this.view.change(pos, obj);
     }
     turn(){
         this.organisms.forEach(el=>{
             if(el.deleted) throw new OrganismAlreadyDeletedException(el);
             el.action();
-        })
+        });
+        this.view.applyChanges();
     }
     getFreeSpace(pos, empty){
         let mapState;
@@ -50,6 +64,14 @@ export default class World{
             newPos = getPosAtDir(pos,dir);
             mapState = this.getMapState(newPos);
             if((!mapState || mapState.pos && !empty) || !mapState) return newPos;
+        }
+    }
+
+    runGame(){
+        let me = this;
+        if(!this.stop) {
+            this.turn();
+            setTimeout(function(){me.runGame()}, 200);
         }
     }
 };

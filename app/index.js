@@ -5,7 +5,6 @@ import Fox from './organisms/animals/fox';
 import Turtle from './organisms/animals/turtle';
 import Antelope from './organisms/animals/antelope';
 import World from './world';
-import {drawWorld, initializeWorld} from './representation';
 
 let world = new World({width:20, height:20});
 
@@ -24,15 +23,8 @@ world.newOrganism(new Turtle({x:1, y:3}));
 world.newOrganism(new Antelope({x:1, y:15}));
 world.newOrganism(new Antelope({x:1, y:16}));
 
-initializeWorld(world);
-runGame();
+world.runGame();
 
-function runGame()
-{
-    drawWorld(world);
-    world.turn();
-    setTimeout(runGame, 100);
-}
 
 
 
