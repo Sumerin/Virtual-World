@@ -4,7 +4,7 @@ import {getRandom, getPosAtDir} from '../../utilities';
 export default class Fox extends Animal{
     constructor(pos){
         super(pos);
-        this.strength = 3;
+        this.strength = 4;
         this.initiative = 7;
     }
     action() {
