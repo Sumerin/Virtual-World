@@ -1,14 +1,20 @@
 import Organism from '../organism';
-import {getRandom, getPosAtDir} from '../../utilities';
+import {getRandom, getPosAtDir, tryWithChance, areEqual} from '../../utilities';
 
 export default class Animal extends Organism{
     constructor(pos){
         super(pos);
     }
-    action(condition) {
+    action(condition, range=1) {
         let dir = getRandom(1, 9);
-        if (dir == 5) return;
         let newPos = getPosAtDir(this.pos, dir);
+        for(let i=0;i<range-1;i++){
+            if(tryWithChance(60)) {
+                dir = getRandom(1, 9);
+                newPos = getPosAtDir(newPos, dir);
+            }
+        }
+        if (areEqual(this.pos, newPos)) return false;
         let mapState = this.world.getMapState(newPos);
         if (!mapState) {
             this.move(newPos);

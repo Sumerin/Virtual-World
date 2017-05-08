@@ -1,11 +1,14 @@
 import Animal from './animal';
-import {tryWithChance} from '../../utilities';
+import {getRandom, getPosAtDir, tryWithChance} from '../../utilities';
 
 export default class Antelope extends Animal{
     constructor(pos){
         super(pos);
         this.strength = 4;
         this.initiative = 4;
+    }
+    action(){
+        super.action(undefined,2)
     }
     defend(){
         if(tryWithChance(50)){

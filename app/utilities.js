@@ -31,4 +31,13 @@ function tryWithChance(prob) {
     return outcome <= prob/100;
 }
 
-export { getRandom, getPosAtDir, tryWithChance }
+function areEqual(first,second){
+    for(let property in first){
+        if (!second.hasOwnProperty(property) || first[property] !== second[property]){
+            return false;
+        }
+    }
+    return true;
+}
+
+export { getRandom, getPosAtDir, tryWithChance, areEqual }
