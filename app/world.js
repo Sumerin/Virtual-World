@@ -1,6 +1,6 @@
-import { WrongSizeGivenException, OutOfRangeException, WrongOrganismIdWhileDeletingException, OrganismAlreadyDeletedException } from './errors';
-import View from './view';
+import { WrongSizeGivenException, OutOfRangeException, OrganismAlreadyDeletedException } from './errors';
 import { getPosAtDir } from './utilities'
+import View from './view';
 
 export default class World{
     constructor(size){
@@ -18,7 +18,6 @@ export default class World{
         this.view.draw();
 
         this.stop = false;
-        this.runGame();
     }
     toggleGame(){
         this.stop = !this.stop;
@@ -71,7 +70,7 @@ export default class World{
         let me = this;
         if(!this.stop) {
             this.turn();
-            setTimeout(function(){me.runGame()}, 200);
         }
+        setTimeout(function(){me.runGame()}, 150);
     }
 };

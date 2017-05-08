@@ -4,11 +4,9 @@ export default class View {
     constructor(world){
         this.world = world;
     }
-
     initialize() {
         this.map = $('#map');
         this.rows = [];
-
         for (let y = 0; y < this.world.size.height; y++) {
             let row = $('<div/>', {
                 class: 'row',
@@ -26,9 +24,8 @@ export default class View {
             this.map.append(row);
             this.rows.push(row[0]);
         }
-        this.changes = [];
+        this.changes = new Map();
     }
-
     checkContent(pos, node){
         console.debug({
             pos:pos,
@@ -60,14 +57,13 @@ export default class View {
         }else{
             className = 'empty';
         }
-        this.changes.push({
-            el:el,
-            newClass: 'element ' + className
-        })
+        this.changes.set(pos, 'element ' + className)
     }
     applyChanges(){
-        this.changes.forEach(change=>{
-            change.el.className = change.newClass;
+        this.changes.forEach((newClass, pos)=>{
+            if (this.rows[pos.y].childNodes[pos.x].className != newClass) {
+                this.rows[pos.y].childNodes[pos.x].className = newClass;
+            }
         })
     }
 }
