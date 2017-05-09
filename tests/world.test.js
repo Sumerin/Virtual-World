@@ -7,4 +7,11 @@ test('Check if created organism is on its place', () => {
     world.newOrganism(new Wolf(pos));
     expect(world.getMapState(pos).constructor.name)
         .toBe('Wolf');
+
+    let node = world.view.rows[pos.y].childNodes[pos.x];
+    expect(node.className)
+        .toBe('element empty');
+    world.view.applyChanges();
+    expect(node.className)
+        .toBe('element Wolf');
 });
