@@ -1,5 +1,5 @@
 import Animal from './animal';
-import {getRandom, getPosAtDir, tryWithChance} from '../../utilities';
+import {tryWithChance} from '../../utilities';
 
 export default class Antelope extends Animal{
     constructor(pos){
@@ -10,7 +10,7 @@ export default class Antelope extends Animal{
     action(){
         super.action(undefined,2)
     }
-    defend(){
+    react(){
         if(tryWithChance(50)){
             let freeSpace = this.world.getFreeSpace(this.pos, true);
             if(freeSpace){
@@ -20,6 +20,6 @@ export default class Antelope extends Animal{
         }
     }
     fight(encountered){
-        super.fight(encountered, this.defend());
+        super.fight(encountered, this.react());
     }
 };

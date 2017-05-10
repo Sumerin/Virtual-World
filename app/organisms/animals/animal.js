@@ -34,11 +34,11 @@ export default class Animal extends Organism{
         if(this.constructor.name != encountered.constructor.name){
             this.fight(encountered);
         }else{
-            this.breed();
+            this.spread();
         }
     }
     fight(encountered, flee){
-        if(!encountered.defend(this) && !flee){
+        if(!encountered.react(this) && !flee){
             let newPos;
             if (this.strength >= encountered.strength) {
                 newPos = encountered.pos;
@@ -48,26 +48,5 @@ export default class Animal extends Organism{
                 this.world.deleteOrganism(this);
             }
         }
-    }
-    breed(){
-        let dir;
-        let newPos;
-        let mapState;
-        dir = getRandom(1, 9);
-        newPos = getPosAtDir(this.pos, dir);
-        mapState = this.world.getMapState(newPos);
-        if(mapState){
-            let freeSpace = this.world.getFreeSpace(this.pos,true);
-            if(freeSpace){
-                newPos = freeSpace;
-            }else{
-                return;
-            }
-        }
-        let child = new this.constructor(newPos);
-        this.world.newOrganism(child);
-    }
-    defend(){
-        return false;
     }
 };

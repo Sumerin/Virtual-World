@@ -12,7 +12,7 @@ export default class Turtle extends Animal{
             super.action();
         }
     }
-    defend(opponent){
+    react(opponent){
         if(opponent.strength<5){
             return true;
         }

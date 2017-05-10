@@ -4,6 +4,10 @@ import Sheep from './organisms/animals/sheep';
 import Fox from './organisms/animals/fox';
 import Turtle from './organisms/animals/turtle';
 import Antelope from './organisms/animals/antelope';
+
+import Guarana from './organisms/plants/guarana'
+import Grass from './organisms/plants/grass'
+
 import World from './world';
 
 let world = new World({width:20, height:20});
@@ -22,6 +26,12 @@ world.newOrganism(new Turtle({x:1, y:3}));
 
 world.newOrganism(new Antelope({x:1, y:15}));
 world.newOrganism(new Antelope({x:1, y:16}));
+
+world.newOrganism(new Grass({x:3, y:4}));
+world.newOrganism(new Grass({x:7, y:7}));
+
+world.newOrganism(new Guarana({x:1, y:1}));
+world.newOrganism(new Guarana({x:19, y:19}));
 
 world.runGame();
 
