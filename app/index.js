@@ -5,8 +5,9 @@ import Fox from './organisms/animals/fox';
 import Turtle from './organisms/animals/turtle';
 import Antelope from './organisms/animals/antelope';
 
-import Guarana from './organisms/plants/guarana'
-import Grass from './organisms/plants/grass'
+import Guarana from './organisms/plants/guarana';
+import Grass from './organisms/plants/grass';
+import SowThistle from './organisms/plants/sowThistle'
 
 import World from './world';
 
@@ -32,6 +33,9 @@ world.newOrganism(new Grass({x:7, y:7}));
 
 world.newOrganism(new Guarana({x:1, y:1}));
 world.newOrganism(new Guarana({x:19, y:19}));
+
+world.newOrganism(new SowThistle({x:15, y:17}));
+world.newOrganism(new SowThistle({x:15, y:18}));
 
 world.runGame();
 

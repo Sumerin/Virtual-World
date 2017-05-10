@@ -7,9 +7,11 @@ export default class Plant extends Organism{
         this.strength = 0;
         this.initiative = 0;
     }
-    action(chance=20) {
-        if(tryWithChance(chance)){
+    action() {
+        if(tryWithChance(10)){
             this.spread();
+            return true;
         }
+        return false;
     }
 };
