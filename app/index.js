@@ -4,6 +4,7 @@ import Sheep from './organisms/animals/sheep';
 import Fox from './organisms/animals/fox';
 import Turtle from './organisms/animals/turtle';
 import Antelope from './organisms/animals/antelope';
+import Human from './organisms/animals/human';
 
 import Guarana from './organisms/plants/guarana';
 import Grass from './organisms/plants/grass';
@@ -40,6 +41,8 @@ world.newOrganism(new SowThistle({x:15, y:18}));
 
 world.newOrganism(new PoisonBerry({x:16, y:16}));
 world.newOrganism(new PoisonBerry({x:16, y:17}));
+
+world.newOrganism(new Human({x:18, y:18}));
 
 world.runGame();
 
