@@ -11,12 +11,9 @@ export default class World{
         this.map = new Array(size.height).fill(0).map(() => new Array(size.width).fill(0));
         this.organisms = new Map();
         this.counter = 0;
-
         this.view = new View(this);
-
         this.view.initialize();
         this.view.draw();
-
         this.stop = false;
     }
     toggleGame(){
@@ -30,6 +27,7 @@ export default class World{
     }
     deleteOrganism(organism){
         if(organism.deleted) throw new OrganismAlreadyDeletedException(organism);
+        if(organism.onDestroy) organism.onDestroy();
         this.setMapState(organism.pos, 0);
         this.organisms.delete(organism.key);
         organism.deleted = true;
@@ -48,12 +46,14 @@ export default class World{
         this.map[pos.y][pos.x] = obj;
         this.view.change(pos, obj);
     }
-    turn(){
-        this.organisms.forEach(el=>{
-            if(el.deleted) throw new OrganismAlreadyDeletedException(el);
-            el.action();
-        });
-        this.view.applyChanges();
+    async turn(){
+        for(let organism of this.organisms){
+            if(organism.deleted) throw new OrganismAlreadyDeletedException(organism);
+            await organism[1].action();
+        }
+        if(this.humanAlive) {
+            this.start();
+        }
     }
     getFreeSpace(pos, empty){
         let mapState;
@@ -65,12 +65,16 @@ export default class World{
             if((!mapState || mapState.pos && !empty) || !mapState) return newPos;
         }
     }
-
     runGame(){
-        let me = this;
-        if(!this.stop) {
+        if(!this.humanAlive){
             this.turn();
+            this.view.applyChanges();
+            let me = this;
+            setTimeout(function(){me.runGame()}, 150);
         }
-        setTimeout(function(){me.runGame()}, 150);
+    }
+    start(){
+        this.view.applyChanges();
+        this.turn();
     }
 };

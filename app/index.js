@@ -44,7 +44,7 @@ world.newOrganism(new PoisonBerry({x:16, y:17}));
 
 world.newOrganism(new Human({x:18, y:18}));
 
-world.runGame();
+world.start();
 
 
 
