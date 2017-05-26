@@ -39,7 +39,7 @@ export default class Human extends Animal{
         this.moved = false;
         return new Promise((resolve,reject)=>{
             window.addEventListener('keydown', (e)=>{
-                let pressed = event.code;
+                let pressed = e.code;
                 let dir;
                 if(pressed.indexOf("Numpad") !== -1) {
                     dir = pressed.slice(-1);
